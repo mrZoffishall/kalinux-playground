@@ -1,0 +1,334 @@
+.class public Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;
+.super Ljava/lang/Object;
+.source "OpenBitSet.java"
+
+# interfaces
+.implements Ljava/io/Serializable;
+
+
+# static fields
+.field static final synthetic $assertionsDisabled:Z = false
+
+.field private static final PAGE_COUNT_LIMIT:I = 0x64
+
+.field public static final PAGE_SIZE:I = 0x1000
+
+.field private static final serialVersionUID:J = -0xc822f40fa461a9eL
+
+
+# instance fields
+.field private final bits:[[J
+
+.field private final pageCount:I
+
+.field private wlen:I
+
+
+# direct methods
+.method static constructor <clinit>()V
+    .locals 0
+
+    return-void
+.end method
+
+.method public constructor <init>(J)V
+    .locals 5
+
+    .line 17
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    .line 18
+    invoke-direct {p0, p1, p2}, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->bits2words(J)I
+
+    move-result p1
+
+    iput p1, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->wlen:I
+
+    .line 19
+    rem-int/lit16 p2, p1, 0x1000
+
+    const/16 v0, 0x1000
+
+    .line 20
+    div-int/2addr p1, v0
+
+    const/4 v1, 0x0
+
+    const/4 v2, 0x1
+
+    if-nez p2, :cond_0
+
+    const/4 v3, 0x0
+
+    goto :goto_0
+
+    :cond_0
+    const/4 v3, 0x1
+
+    :goto_0
+    add-int/2addr v3, p1
+
+    .line 21
+    iput v3, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->pageCount:I
+
+    const/16 v4, 0x64
+
+    if-gt v3, v4, :cond_3
+
+    .line 26
+    new-array v3, v3, [[J
+
+    iput-object v3, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->bits:[[J
+
+    :goto_1
+    if-ge v1, p1, :cond_1
+
+    .line 29
+    iget-object v3, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->bits:[[J
+
+    new-array v4, v0, [J
+
+    aput-object v4, v3, v1
+
+    add-int/lit8 v1, v1, 0x1
+
+    goto :goto_1
+
+    :cond_1
+    if-eqz p2, :cond_2
+
+    .line 33
+    iget-object p1, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->bits:[[J
+
+    array-length v0, p1
+
+    sub-int/2addr v0, v2
+
+    new-array p2, p2, [J
+
+    aput-object p2, p1, v0
+
+    :cond_2
+    return-void
+
+    .line 24
+    :cond_3
+    new-instance p1, Ljava/lang/RuntimeException;
+
+    new-instance p2, Ljava/lang/StringBuilder;
+
+    invoke-direct {p2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v0, "HighPageCountException pageCount = "
+
+    invoke-virtual {p2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p2
+
+    invoke-direct {p1, p2}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+.end method
+
+.method private bits2words(J)I
+    .locals 3
+
+    const-wide/16 v0, 0x1
+
+    sub-long/2addr p1, v0
+
+    const/4 v2, 0x6
+
+    ushr-long/2addr p1, v2
+
+    add-long/2addr p1, v0
+
+    long-to-int p2, p1
+
+    return p2
+.end method
+
+.method private ensureCapacity(J)V
+    .locals 0
+
+    .line 68
+    invoke-direct {p0, p1, p2}, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->bits2words(J)I
+
+    move-result p1
+
+    invoke-direct {p0, p1}, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->ensureCapacityWords(I)V
+
+    return-void
+.end method
+
+.method private ensureCapacityWords(I)V
+    .locals 0
+
+    return-void
+.end method
+
+.method private expandingWordNum(J)I
+    .locals 4
+
+    const/4 v0, 0x6
+
+    shr-long v0, p1, v0
+
+    long-to-int v1, v0
+
+    .line 60
+    iget v0, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->wlen:I
+
+    if-lt v1, v0, :cond_0
+
+    const-wide/16 v2, 0x1
+
+    add-long/2addr p1, v2
+
+    .line 61
+    invoke-direct {p0, p1, p2}, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->ensureCapacity(J)V
+
+    add-int/lit8 p1, v1, 0x1
+
+    .line 62
+    iput p1, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->wlen:I
+
+    :cond_0
+    return v1
+.end method
+
+
+# virtual methods
+.method public getNumWords()I
+    .locals 1
+
+    .line 80
+    iget v0, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->wlen:I
+
+    return v0
+.end method
+
+.method public getPage(I)[J
+    .locals 1
+
+    .line 88
+    iget-object v0, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->bits:[[J
+
+    aget-object p1, v0, p1
+
+    return-object p1
+.end method
+
+.method public getPageCount()I
+    .locals 1
+
+    .line 84
+    iget v0, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->pageCount:I
+
+    return v0
+.end method
+
+.method indexInBits(J)Z
+    .locals 5
+
+    const/4 v0, 0x6
+
+    shr-long v0, p1, v0
+
+    long-to-int v1, v0
+
+    .line 50
+    iget v0, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->wlen:I
+
+    const/4 v2, 0x0
+
+    if-lt v1, v0, :cond_0
+
+    return v2
+
+    :cond_0
+    long-to-int p2, p1
+
+    and-int/lit8 p1, p2, 0x3f
+
+    const-wide/16 v3, 0x1
+
+    shl-long p1, v3, p1
+
+    .line 55
+    iget-object v0, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->bits:[[J
+
+    div-int/lit16 v3, v1, 0x1000
+
+    aget-object v0, v0, v3
+
+    rem-int/lit16 v1, v1, 0x1000
+
+    aget-wide v3, v0, v1
+
+    and-long/2addr p1, v3
+
+    const-wide/16 v0, 0x0
+
+    cmp-long v3, p1, v0
+
+    if-eqz v3, :cond_1
+
+    const/4 v2, 0x1
+
+    :cond_1
+    return v2
+.end method
+
+.method set(J)V
+    .locals 4
+
+    .line 42
+    invoke-direct {p0, p1, p2}, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->expandingWordNum(J)I
+
+    move-result v0
+
+    long-to-int p2, p1
+
+    and-int/lit8 p1, p2, 0x3f
+
+    const-wide/16 v1, 0x1
+
+    shl-long p1, v1, p1
+
+    .line 45
+    iget-object v1, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->bits:[[J
+
+    div-int/lit16 v2, v0, 0x1000
+
+    aget-object v1, v1, v2
+
+    rem-int/lit16 v0, v0, 0x1000
+
+    aget-wide v2, v1, v0
+
+    or-long/2addr p1, v2
+
+    aput-wide p1, v1, v0
+
+    return-void
+.end method
+
+.method size()J
+    .locals 3
+
+    .line 38
+    iget v0, p0, Lcom/startapp/simple/bloomfilter/algo/OpenBitSet;->wlen:I
+
+    int-to-long v0, v0
+
+    const/4 v2, 0x6
+
+    shl-long/2addr v0, v2
+
+    return-wide v0
+.end method
