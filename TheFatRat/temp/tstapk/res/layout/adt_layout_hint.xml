@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@id/adt_hint" android:background="@android:color/transparent" android:layout_width="fill_parent" android:layout_height="wrap_content"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout android:gravity="center" android:orientation="horizontal" android:background="@android:color/transparent" android:paddingLeft="@dimen/adt_margin_hint_right_left" android:paddingTop="@dimen/adt_margin_hint_top_bottom" android:paddingRight="@dimen/adt_margin_hint_right_left" android:paddingBottom="@dimen/adt_margin_hint_top_bottom" android:layout_width="wrap_content" android:layout_height="wrap_content">
-        <ImageView android:id="@id/adt_hint_icon" android:layout_width="@dimen/adt_icon_hint" android:layout_height="@dimen/adt_icon_hint" android:layout_marginRight="@dimen/adt_margin_hint_small" android:contentDescription="@null" android:layout_marginEnd="@dimen/adt_margin_hint_small" />
-        <TextView android:textSize="@dimen/adt_font_hint" android:gravity="start" android:id="@id/adt_hint_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAlignment="viewStart" />
-    </LinearLayout>
-</FrameLayout>
